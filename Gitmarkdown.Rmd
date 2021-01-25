@@ -1,0 +1,62 @@
+---
+title: "GitMarkdown"
+author: "Andreas Kiessling"
+date: "25/01/2021"
+output: html_document
+---
+
+
+## R Markdown
+
+
+```{Function}
+data %>% 
+    filter(cell_type =="Leucocytes") %>% 
+    gather(cell_number, mice, -cell_type, -treatment) %>%
+    mutate(treatment = factor(treatment, c("Sham_1", "THY-", "Sham_2","THY+"))) -> data_2
+
+# make the plot
+set.seed(1)   # geom_jitter has a random element so set.seed() makes this same
+plot_l <- ggplot(data = data_2,
+    aes(treatment, mice, colour = treatment)) +
+    geom_boxplot() +
+    geom_jitter(width=0.15) +
+    theme_bw() +
+    labs(title = "Leucocytes", x="", y="",
+         subtitle = "Croft et al (2019) Nature 570:246–251 (2019)") +
+    theme_classic() + theme(legend.position="none")
+
+plot_l
+
+
+## ----make_function---------------------------------------------------------------------
+## make a function called my_workflow
+
+my_workflow <- function(data, a_cell_type){
+    # select out the rows we want with filter() function
+    data %>% 
+        filter(cell_type == a_cell_type) %>% 
+        gather(cell_number, mice, -cell_type, -treatment)  %>%    
+        mutate(treatment = factor(treatment, c("Sham_1", "THY-", "Sham_2","THY+"))) -> data_2
+        
+    # make the plot
+    set.seed(1)
+    plot <- ggplot(data = data_2,
+        aes(treatment, mice, colour = treatment)) +
+        geom_boxplot() +
+        geom_jitter(width=0.15) +
+        theme_bw() +
+        labs(title = a_cell_type, x="", y="",
+             subtitle = "Croft et al (2019) Nature 570:246–251 (2019)") +
+        theme_classic() + theme(legend.position="none")
+    
+    # this returns the plot that we want.   
+
+}
+
+```
+
+
+```{return plot, echo=FALSE}
+    return(plot)
+```
