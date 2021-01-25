@@ -37,7 +37,7 @@ my_workflow <- function(data, a_cell_type){
     data %>% 
         filter(cell_type == a_cell_type) %>% 
         gather(cell_number, mice, -cell_type, -treatment)  %>%    
-        mutate(treatment = factor(treatment, c("Sham_1", "THY-", "Sham_2","THY+"))) -> data_2
+        mutate(treatment = factor(treatment, c("Sham_1", "Sham_2", "THY-", "THY+"))) -> data_2
         
     # make the plot
     set.seed(1)
